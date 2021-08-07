@@ -34,6 +34,30 @@ add_filter(
 			'gallery_source', $variation_values, 'default'
 		);
 
+		if (wp_doing_ajax()) {
+			$gallery_args = [
+				'product' => $product,
+				'forced_single' => true,
+			];
+
+			remove_action(
+				'woocommerce_product_thumbnails',
+				'woocommerce_show_product_thumbnails',
+				20
+			);
+
+			global $blocksy_current_variation;
+
+			if ($variation) {
+				$blocksy_current_variation = $variation;
+			}
+
+			$result['blocksy_gallery_html'] = blocksy_render_view(
+				dirname(__FILE__) . '/../single/woo-gallery-template.php',
+				$gallery_args
+			);
+		}
+
 		return $result;
 	},
 	10, 3

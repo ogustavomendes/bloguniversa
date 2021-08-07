@@ -21,36 +21,6 @@ export const mount = () => {
 
 	const selector = '.ct-header-cart, .ct-shortcuts-container [data-id="cart"]'
 
-	;[...document.querySelectorAll('#woo-cart-panel .qty')].map((el) => {
-		if (el.hasChangeListener) {
-			return
-		}
-
-		el.hasChangeListener = true
-
-		$(el).on('change', (e) => {
-			var item_hash = $(el)
-				.attr('name')
-				.replace(/cart\[([\w]+)\]\[qty\]/g, '$1')
-
-			var item_quantity = $(el).val()
-			var currentVal = parseFloat(item_quantity)
-
-			$.ajax({
-				type: 'POST',
-				url: ct_localizations.ajax_url,
-				data: {
-					action: 'blocksy_update_qty_cart',
-					hash: item_hash,
-					quantity: currentVal,
-				},
-				success: (data) => {
-					jQuery('body').trigger('updated_wc_div')
-				},
-			})
-		})
-	})
-
 	if (mounted) {
 		return
 	}

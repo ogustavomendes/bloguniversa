@@ -15,7 +15,7 @@ if (! isset($product)) {
 	$product = $temp_product;
 }
 
-if ($product->get_type() === 'variable') {
+if ($product->get_type() === 'variable' && ! $blocksy_current_variation) {
 	$maybe_variation = (new \WC_Product_Data_Store_CPT())->find_matching_product_variation(
 		$product,
 		$_GET

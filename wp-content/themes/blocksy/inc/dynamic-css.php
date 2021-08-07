@@ -157,17 +157,19 @@ class Blocksy_Dynamic_Css {
 			$styles['tablet'] .= $single_styles_descriptor['styles']['tablet'];
 			$styles['mobile'] .= $single_styles_descriptor['styles']['mobile'];
 
-			foreach ($single_styles_descriptor['google_fonts'] as $single_gf => $v) {
-				foreach ($v as $variation) {
-					if (! isset($google_fonts[$single_gf])) {
-						$google_fonts[$single_gf] = [$variation];
-					} else {
-						$google_fonts[$single_gf][] = $variation;
-					}
+			if (isset($single_styles_descriptor['google_fonts'])) {
+				foreach ($single_styles_descriptor['google_fonts'] as $single_gf => $v) {
+					foreach ($v as $variation) {
+						if (! isset($google_fonts[$single_gf])) {
+							$google_fonts[$single_gf] = [$variation];
+						} else {
+							$google_fonts[$single_gf][] = $variation;
+						}
 
-					$google_fonts[$single_gf] = array_unique(
-						$google_fonts[$single_gf]
-					);
+						$google_fonts[$single_gf] = array_unique(
+							$google_fonts[$single_gf]
+						);
+					}
 				}
 			}
 		}

@@ -220,39 +220,88 @@ const getVariablesForPrefix = (prefix) => ({
 		responsive: true,
 	},
 
-	[`${prefix}_hero_elements`]: [
-		...getMetaSpacingVariables({ prefix }),
-		{
-			variable: 'description-max-width',
-			unit: '%',
-			selector: `[data-prefix="${prefix}"] .hero-section .page-description`,
-			responsive: true,
-			extractValue: (value) => {
-				const hero = document.querySelector(
-					`[data-prefix="${prefix}"] .hero-section`
-				)
+	[`${prefix}_hero_elements`]: (value) => {
+		let additionalVariables = []
 
-				if (hero.dataset.type !== 'type-1') {
-					return 'CT_CSS_SKIP_RULE'
-				}
+		value.map((layer) => {
+			if (layer.typography) {
+				additionalVariables = [
+					...additionalVariables,
+					...typographyOption({
+						id: 'test',
+						selector: `[data-prefix="${prefix}"] [data-id="${layer.__id.substring(
+							0,
+							6
+						)}"]`,
+						extractValue: (value) => layer.typography,
+					}).test,
+				]
+			}
 
-				let key = 'custom_description'
+			if (layer.color) {
+				additionalVariables = [
+					...additionalVariables,
 
-				let component = value.find((component) => component.id === key)
+					{
+						selector: `[data-prefix="${prefix}"] [data-id="${layer.__id.substring(
+							0,
+							6
+						)}"]`,
+						variable: 'color',
+						type: 'color:default',
+						extractValue: () => layer.color,
+					},
 
-				let hero_item_max_width =
-					(
-						component || {
-							hero_item_max_width: 100,
-						}
-					).hero_item_max_width || 100
+					{
+						selector: `[data-prefix="${prefix}"] [data-id="${layer.__id.substring(
+							0,
+							6
+						)}"]`,
+						variable: 'linkHoverColor',
+						type: 'color:hover',
+						extractValue: () => layer.color,
+					},
+				]
+			}
+		})
 
-				return hero_item_max_width === 100
-					? 'CT_CSS_SKIP_RULE'
-					: hero_item_max_width
+		return [
+			...additionalVariables,
+			...getMetaSpacingVariables({ prefix }),
+			{
+				variable: 'description-max-width',
+				unit: '%',
+				selector: `[data-prefix="${prefix}"] .hero-section .page-description`,
+				responsive: true,
+				extractValue: (value) => {
+					const hero = document.querySelector(
+						`[data-prefix="${prefix}"] .hero-section`
+					)
+
+					if (hero.dataset.type !== 'type-1') {
+						return 'CT_CSS_SKIP_RULE'
+					}
+
+					let key = 'custom_description'
+
+					let component = value.find(
+						(component) => component.id === key
+					)
+
+					let hero_item_max_width =
+						(
+							component || {
+								hero_item_max_width: 100,
+							}
+						).hero_item_max_width || 100
+
+					return hero_item_max_width === 100
+						? 'CT_CSS_SKIP_RULE'
+						: hero_item_max_width
+				},
 			},
-		},
-	],
+		]
+	},
 })
 
 export const getHeroVariables = () => getVariablesForPrefix(getPrefixFor())

@@ -269,7 +269,7 @@ export const handleEntryPoints = (mountEntryPoints, args) => {
 		ctEvents.on(distinctEvent, () => {
 			mountEntryPoints
 				.filter(({ events = [] }) => events.indexOf(distinctEvent) > -1)
-				.map(loadSingleEntryPoint)
+				.map((c) => loadSingleEntryPoint({ ...c, trigger: [] }))
 
 			mountEntryPoints
 				.filter(
@@ -279,7 +279,13 @@ export const handleEntryPoints = (mountEntryPoints, args) => {
 				.map((entry) =>
 					loadSingleEntryPoint({
 						...entry,
-						els: ['body'],
+						...(entry.forcedEventsElsSkip
+							? {}
+							: {
+									els: ['body'],
+							  }),
+						condition: () => true,
+						trigger: [],
 					})
 				)
 		})

@@ -77,10 +77,6 @@ function blocksy_flexy($args = []) {
 				$class = $args['first_item_class'];
 			}
 
-			if (! empty($class)) {
-				$class = 'class="' . $class . '"';
-			}
-
 			$slide_args = [
 				'no_image_type' => 'woo',
 				'attachment_id' => $attachment_id,
@@ -104,9 +100,25 @@ function blocksy_flexy($args = []) {
 				);
 			}
 
-			$args['items'] .= '<div ' . $class . '>' . blocksy_image(
-				$slide_args
-			) .'</div>';
+			$slide_wrapper_attr = [];
+
+			if (! empty($class)) {
+				$slide_wrapper_attr['class'] = $class;
+			}
+
+			if (
+				$args['images_ratio'] === 'original'
+				&&
+				$index === (intval($args['active_index']) - 1)
+			) {
+				$slide_wrapper_attr['data-item'] = 'initial';
+			}
+
+			$args['items'] .= blocksy_html_tag(
+				'div',
+				$slide_wrapper_attr,
+				blocksy_image($slide_args)
+			);
 
 			if ($has_scale_rotate) {
 				$args['items'] .= '</div>';

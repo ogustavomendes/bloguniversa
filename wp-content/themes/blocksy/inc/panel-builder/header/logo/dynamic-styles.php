@@ -30,7 +30,7 @@ blocksy_output_font_css([
 		blocksy_typography_default_values([
 			'size' => '25px',
 			'variation' => 'n7',
-			// 'line-height' => '1.5'
+			'line-height' => '1.5'
 		])
 	),
 	'css' => $css,

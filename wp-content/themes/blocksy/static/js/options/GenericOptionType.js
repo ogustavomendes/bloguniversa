@@ -426,134 +426,148 @@ const GenericOptionType = ({
 	const getActualOption = ({
 		wrapperAttr: { className, ...additionalWrapperAttr } = {},
 		...props
-	} = {}) => (
-		<Fragment>
-			<div
-				className={classnames('ct-control', className, {})}
-				data-design={actualDesignType}
-				{...(option.divider ? { 'data-divider': option.divider } : {})}
-				{...{
-					...((isOptionResponsiveFor(option) &&
-						!isOptionEnabledFor(device, option.responsive)) ||
-					option.state === 'disabled'
-						? { 'data-state': 'disabled' }
-						: {}),
-				}}
-				{...{
-					...(option.wrapperAttr || {}),
-					...additionalWrapperAttr,
-				}}>
-				<header>
-					{maybeLabel && <label>{maybeLabel}</label>}
+	} = {}) => {
+		const { className: optionClassName, ...optionAdditionalWrapperAttr } =
+			option.wrapperAttr || {}
 
-					{option.type !== 'ct-image-picker' &&
-						option.type !== 'ct-layers' &&
-						option.type !== 'ct-image-uploader' &&
-						option.type !== 'ct-panel' &&
-						hasRevertButton &&
-						!option.disableRevertButton && (
-							<button
-								type="button"
-								disabled={deepEqual(
-									option.value,
-									optionWithDefault({ value, option })
-								)}
-								className="ct-revert"
-								onClick={() =>
-									onChangeWithMobileBridge(option.value)
-								}
-							/>
-						)}
-
-					<LabelToolbar
-						{...{
-							option,
-							value: valueWithResponsive,
-							id,
-							onChange: onChangeWithResponsiveBridge,
-						}}
-					/>
-
-					{isOptionResponsiveFor(option, {
-						ignoreHidden: true,
-					}) &&
-						actualDesignType.indexOf('block') > -1 &&
-						!option.skipResponsiveControls && (
-							<ResponsiveControls
-								device={device}
-								responsiveDescriptor={option.responsive}
-								setDevice={setDevice}
-							/>
-						)}
-				</header>
-
-				{isOptionResponsiveFor(option) &&
-					!isOptionEnabledFor(device, option.responsive) && (
-						<div className="ct-disabled-notification">
-							{option.disabledDeviceMessage ||
-								__(
-									"Option can't be edited for current device",
-									'blocksy'
-								)}
-						</div>
+		return (
+			<Fragment>
+				<div
+					className={classnames(
+						'ct-control',
+						className,
+						optionClassName,
+						{}
 					)}
+					data-design={actualDesignType}
+					{...(option.divider
+						? { 'data-divider': option.divider }
+						: {})}
+					{...{
+						...((isOptionResponsiveFor(option) &&
+							!isOptionEnabledFor(device, option.responsive)) ||
+						option.state === 'disabled'
+							? { 'data-state': 'disabled' }
+							: {}),
+					}}
+					{...{
+						...optionAdditionalWrapperAttr,
+						...additionalWrapperAttr,
+					}}>
+					<header>
+						{maybeLabel && <label>{maybeLabel}</label>}
 
-				{((isOptionResponsiveFor(option) &&
-					isOptionEnabledFor(device, option.responsive)) ||
-					!isOptionResponsiveFor(option)) && (
-					<Fragment>
-						<section
-							{...(option.sectionAttr || {})}
-							className={classnames(
-								{
-									'ct-responsive-container':
-										isOptionResponsiveFor(option, {
-											ignoreHidden: true,
-										}) && actualDesignType === 'inline',
-								},
-								sectionClassName({
-									design: actualDesignType,
-									option,
-								}),
-								(option.sectionAttr || {}).class || ''
-							)}>
-							{isOptionResponsiveFor(option, {
-								ignoreHidden: true,
-							}) &&
-								actualDesignType === 'inline' && (
-									<ResponsiveControls
-										device={device}
-										responsiveDescriptor={option.responsive}
-										setDevice={setDevice}
-									/>
-								)}
-							{OptionComponentWithoutDesign}
-
-							{maybeLink && (
-								<a
-									dangerouslySetInnerHTML={{
-										__html: maybeLink,
-									}}
-									{...(option.linkAttr || {})}
+						{option.type !== 'ct-image-picker' &&
+							option.type !== 'ct-layers' &&
+							option.type !== 'ct-image-uploader' &&
+							option.type !== 'ct-panel' &&
+							hasRevertButton &&
+							!option.disableRevertButton && (
+								<button
+									type="button"
+									disabled={deepEqual(
+										option.value,
+										optionWithDefault({ value, option })
+									)}
+									className="ct-revert"
+									onClick={() =>
+										onChangeWithMobileBridge(option.value)
+									}
 								/>
 							)}
-						</section>
 
-						<ControlEnd />
+						<LabelToolbar
+							{...{
+								option,
+								value: valueWithResponsive,
+								id,
+								onChange: onChangeWithResponsiveBridge,
+							}}
+						/>
 
-						{maybeDesc && (
-							<div
-								dangerouslySetInnerHTML={{
-									__html: maybeDesc,
-								}}
-								className="ct-option-description"
-							/>
+						{isOptionResponsiveFor(option, {
+							ignoreHidden: true,
+						}) &&
+							actualDesignType.indexOf('block') > -1 &&
+							!option.skipResponsiveControls && (
+								<ResponsiveControls
+									device={device}
+									responsiveDescriptor={option.responsive}
+									setDevice={setDevice}
+								/>
+							)}
+					</header>
+
+					{isOptionResponsiveFor(option) &&
+						!isOptionEnabledFor(device, option.responsive) && (
+							<div className="ct-disabled-notification">
+								{option.disabledDeviceMessage ||
+									__(
+										"Option can't be edited for current device",
+										'blocksy'
+									)}
+							</div>
 						)}
-					</Fragment>
-				)}
-			</div>
-		</Fragment>
-	)
+
+					{((isOptionResponsiveFor(option) &&
+						isOptionEnabledFor(device, option.responsive)) ||
+						!isOptionResponsiveFor(option)) && (
+						<Fragment>
+							<section
+								{...(option.sectionAttr || {})}
+								className={classnames(
+									{
+										'ct-responsive-container':
+											isOptionResponsiveFor(option, {
+												ignoreHidden: true,
+											}) && actualDesignType === 'inline',
+									},
+									sectionClassName({
+										design: actualDesignType,
+										option,
+									}),
+									(option.sectionAttr || {}).class || ''
+								)}>
+								{isOptionResponsiveFor(option, {
+									ignoreHidden: true,
+								}) &&
+									actualDesignType === 'inline' && (
+										<ResponsiveControls
+											device={device}
+											responsiveDescriptor={
+												option.responsive
+											}
+											setDevice={setDevice}
+										/>
+									)}
+								{OptionComponentWithoutDesign}
+
+								{maybeLink && (
+									<a
+										dangerouslySetInnerHTML={{
+											__html: maybeLink,
+										}}
+										{...(option.linkAttr || {})}
+									/>
+								)}
+							</section>
+
+							<ControlEnd />
+
+							{maybeDesc && (
+								<div
+									dangerouslySetInnerHTML={{
+										__html: maybeDesc,
+									}}
+									className="ct-option-description"
+								/>
+							)}
+						</Fragment>
+					)}
+				</div>
+			</Fragment>
+		)
+	}
 
 	return OptionMetaWrapper ? (
 		<OptionMetaWrapper

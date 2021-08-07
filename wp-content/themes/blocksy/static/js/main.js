@@ -56,9 +56,19 @@ export const allFrontendEntryPoints = [
 	},
 
 	{
-		els: '.ct-share-box [data-network]',
+		els: '.ct-share-box [data-network="pinterest"]',
 		load: () => import('./frontend/social-buttons'),
 		trigger: ['click'],
+	},
+
+	{
+		els: '.ct-share-box [data-network]:not([data-network="pinterest"])',
+		load: () => import('./frontend/social-buttons'),
+		trigger: ['click'],
+		condition: () =>
+			!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+				navigator.userAgent
+			),
 	},
 
 	{
@@ -108,7 +118,7 @@ export const allFrontendEntryPoints = [
 				focus: true,
 			})
 		},
-		events: ['ct:header:update'],
+		events: [],
 		trigger: ['click'],
 	},
 ]
@@ -160,7 +170,9 @@ const initOverlayTrigger = () => {
 				import('./frontend/overlay').then(({ handleClick }) =>
 					handleClick(event, {
 						container: offcanvas,
-						closeWhenLinkInside: true,
+						closeWhenLinkInside: !menuToggle.closest(
+							'.ct-header-cart'
+						),
 						computeScrollContainer: () =>
 							offcanvas.querySelector('.cart_list')
 								? offcanvas.querySelector('.cart_list')

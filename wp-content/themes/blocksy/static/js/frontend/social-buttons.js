@@ -1,10 +1,6 @@
 import $script from 'scriptjs'
 
 export const mount = (el, { event }) => {
-	const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-		navigator.userAgent
-	)
-
 	if (el.dataset.network === 'pinterest') {
 		event.preventDefault()
 		if (window.PinUtils) {
@@ -23,10 +19,6 @@ export const mount = (el, { event }) => {
 			)
 		}
 
-		return
-	}
-
-	if (isMobile) {
 		return
 	}
 

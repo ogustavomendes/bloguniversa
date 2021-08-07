@@ -32,10 +32,7 @@ if (! have_posts()) {
 }
 
 ?>
-<!-- barra azul embaixo do titulo -->
-<!-- <section style="background-color: #233177; height: 500px;">
-	
-</section> -->
+
 <div class="<?php echo $container_class ?>" <?php echo wp_kses_post(blocksy_sidebar_position_attr()); ?> <?php echo blocksy_get_v_spacing() ?>>
 
 	<section <?php echo $section_class ?>>

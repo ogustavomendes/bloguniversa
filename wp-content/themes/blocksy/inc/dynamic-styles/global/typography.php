@@ -179,3 +179,18 @@ blocksy_output_font_css([
 	'mobile_css' => $mobile_css,
 	'selector' => '.ct-sidebar .ct-widget > *:not(.widget-title):not(blockquote)'
 ]);
+
+blocksy_output_font_css([
+	'font_value' => get_theme_mod(
+		'breadcrumbsFont',
+		blocksy_typography_default_values([
+			'size' => '12px',
+			'variation' => 'n6',
+			'text-transform' => 'uppercase',
+		])
+	),
+	'css' => $css,
+	'tablet_css' => $tablet_css,
+	'mobile_css' => $mobile_css,
+	'selector' => '.ct-breadcrumbs'
+]);

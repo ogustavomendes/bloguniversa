@@ -167,6 +167,60 @@ export const getPostListingVariables = () => ({
 		selector: applyPrefixFor('.entry-card .entry-title', prefix),
 	}),
 
+	[`${prefix}_archive_order`]: (v) => {
+		let variables = []
+
+		v.map((layer) => {
+			if (layer.typography) {
+				variables = [
+					...variables,
+					...typographyOption({
+						id: 'test',
+						selector: applyPrefixFor(
+							`[data-id="${layer.__id.substring(0, 6)}"]`,
+							prefix
+						),
+						extractValue: (value) => {
+							return layer.typography
+						},
+					}).test,
+				]
+			}
+
+			if (layer.color) {
+				variables = [
+					...variables,
+
+					{
+						selector: applyPrefixFor(
+							`[data-id="${layer.__id.substring(0, 6)}"]`,
+							prefix
+						),
+						variable: 'color',
+						type: 'color:default',
+						extractValue: () => {
+							return layer.color
+						},
+					},
+
+					{
+						selector: applyPrefixFor(
+							`[data-id="${layer.__id.substring(0, 6)}"]`,
+							prefix
+						),
+						variable: 'linkHoverColor',
+						type: 'color:hover',
+						extractValue: () => {
+							return layer.color
+						},
+					},
+				]
+			}
+		})
+
+		return variables
+	},
+
 	[`${prefix}_columns`]: [
 		{
 			selector: applyPrefixFor('.entries', prefix),

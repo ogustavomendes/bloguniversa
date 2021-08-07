@@ -217,7 +217,17 @@ blocksy_output_colors([
 ]);
 
 // breadcrumbs
-foreach (get_theme_mod($prefix . '_hero_elements', []) as $layer) {
+$default_hero_elements = [];
+
+$default_hero_elements[] = [
+	'id' => 'breadcrumbs',
+	'enabled' => $prefix === 'product',
+];
+
+foreach (get_theme_mod(
+	$prefix . '_hero_elements',
+	$default_hero_elements
+) as $layer) {
 	if (! $layer['enabled']) {
 		continue;
 	}
@@ -227,11 +237,7 @@ foreach (get_theme_mod($prefix . '_hero_elements', []) as $layer) {
 			'font_value' => blocksy_akg_or_customizer(
 				'breadcrumbsFont',
 				$source,
-				blocksy_typography_default_values([
-					'size' => '12px',
-					'variation' => 'n6',
-					'text-transform' => 'uppercase',
-				])
+				blocksy_typography_default_values([])
 			),
 			'css' => $css,
 			'tablet_css' => $tablet_css,
@@ -489,7 +495,6 @@ foreach ($hero_elements as $index => $single_hero_element) {
 		continue;
 	}
 
-
 	if ($single_hero_element['id'] === 'custom_title') {
 		blocksy_output_colors([
 			'value' => blocksy_akg_or_customizer('pageTitleFontColor', $source),
@@ -503,6 +508,51 @@ foreach ($hero_elements as $index => $single_hero_element) {
 				'default' => [
 					'selector' => blocksy_prefix_selector('.entry-header .page-title', $prefix),
 					'variable' => 'heading-color'
+				],
+			],
+		]);
+	}
+
+	if (isset($single_hero_element['typography'])) {
+		blocksy_output_font_css([
+			'font_value' => blocksy_akg(
+				'typography',
+				$single_hero_element,
+				blocksy_typography_default_values([])
+			),
+			'css' => $css,
+			'tablet_css' => $tablet_css,
+			'mobile_css' => $mobile_css,
+			'selector' => blocksy_prefix_selector('[data-id="' . substr(
+				$single_hero_element['__id'],
+				0, 6
+			) . '"]', $prefix)
+		]);
+	}
+
+	if (isset($single_hero_element['color'])) {
+		blocksy_output_colors([
+			'value' => blocksy_akg('color', $single_hero_element),
+			'default' => [
+				'default' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+				'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+			],
+			'css' => $css,
+			'variables' => [
+				'default' => [
+					'selector' => blocksy_prefix_selector('[data-id="' . substr(
+						$single_hero_element['__id'],
+						0, 6
+					) . '"]', $prefix),
+					'variable' => 'color'
+				],
+
+				'hover' => [
+					'selector' => blocksy_prefix_selector('[data-id="' . substr(
+						$single_hero_element['__id'],
+						0, 6
+					) . '"]', $prefix),
+					'variable' => 'linkHoverColor'
 				],
 			],
 		]);

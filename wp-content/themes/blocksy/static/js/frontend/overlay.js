@@ -60,25 +60,6 @@ const showOffcanvas = (settings) => {
 				: ''
 		}`
 
-		settings.container.addEventListener(
-			settings.container.dataset.behaviour.indexOf('side') > -1
-				? 'transitionend'
-				: 'animationend',
-			() => {
-				return
-				document.body.dataset.panel = `${
-					settings.container.dataset.behaviour.indexOf('left') > -1
-						? 'left'
-						: settings.container.dataset.behaviour.indexOf(
-								'right'
-						  ) > -1
-						? 'right'
-						: ''
-				}`
-			},
-			{ once: true }
-		)
-
 		document.addEventListener(
 			'keyup',
 			(event) => {
@@ -123,9 +104,9 @@ const showOffcanvas = (settings) => {
 	 * getting closed.
 	 */
 	if (!settings.forceOpen) {
-		requestAnimationFrame(() =>
+		requestAnimationFrame(() => {
 			window.addEventListener('click', settings.handleWindowClick)
-		)
+		})
 	}
 
 	ctEvents.trigger('ct:modal:opened', settings.container)
@@ -136,11 +117,16 @@ const showOffcanvas = (settings) => {
 	)
 }
 
-const hideOffcanvas = (settings, closeInstant = false) => {
+const hideOffcanvas = (settings, args = {}) => {
 	settings = {
 		onClose: () => {},
 		container: null,
 		...settings,
+	}
+
+	args = {
+		closeInstant: false,
+		...args,
 	}
 
 	if (!document.body.hasAttribute('data-panel')) {
@@ -157,7 +143,7 @@ const hideOffcanvas = (settings, closeInstant = false) => {
 
 	settings.container.classList.remove('active')
 
-	if (closeInstant) {
+	if (args.closeInstant) {
 		document.body.removeAttribute('data-panel')
 		ctEvents.trigger('ct:modal:closed', settings.container)
 
@@ -204,6 +190,7 @@ const hideOffcanvas = (settings, closeInstant = false) => {
 	}
 
 	window.removeEventListener('click', settings.handleWindowClick)
+
 	settings.container.removeEventListener(
 		'click',
 		settings.handleContainerClick
@@ -213,7 +200,9 @@ const hideOffcanvas = (settings, closeInstant = false) => {
 }
 
 export const handleClick = (e, settings) => {
-	e.preventDefault()
+	if (e && e.preventDefault) {
+		e.preventDefault()
+	}
 
 	settings = {
 		onClose: () => {},
@@ -257,6 +246,13 @@ export const handleClick = (e, settings) => {
 				return
 			}
 
+			if (
+				e.target.classList.contains('ct-header-trigger') ||
+				e.target.closest('.ct-header-trigger')
+			) {
+				return
+			}
+
 			document.body.hasAttribute('data-panel') && hideOffcanvas(settings)
 		},
 		...settings,
@@ -290,7 +286,10 @@ export const handleClick = (e, settings) => {
 
 				settings.container.addEventListener('click', (event) => {
 					if (event.target && event.target.matches('a')) {
-						hideOffcanvas(settings, true)
+						hideOffcanvas(settings, {
+							closeInstant:
+								event.target.getAttribute('href')[0] !== '#',
+						})
 					}
 				})
 			}

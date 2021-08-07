@@ -1,4 +1,5 @@
 import { createElement, useEffect, useRef } from '@wordpress/element'
+import $ from 'jquery'
 
 const BlockWidgetArea = ({
 	value,
@@ -9,24 +10,34 @@ const BlockWidgetArea = ({
 	const parentEl = useRef()
 
 	useEffect(() => {
-		const sectionId = `widgetAreaSection-${sidebarId}`
+		let sidebarForCleanup = 'ct-footer-sidebar-1'
 
-		const widgetsToMove = Object.keys(wp.customize.control._value).filter(
-			(id) => {
-				if (id.indexOf('widget_') !== 0) {
-					return false
-				}
+		if (sidebarId === 'ct-footer-sidebar-1') {
+			sidebarForCleanup = 'ct-footer-sidebar-2'
+		}
 
-				return (
-					wp.customize.control(id).section() ===
-					`sidebar-widgets-${sidebarId}`
-				)
-			}
-		)
+		const controlForSidebarId =
+			wp.customize.control._value[`sidebars_widgets[${sidebarId}]`]
 
-		console.log('here', { widgetsToMove, sectionId })
+		wp.customize.control._value[
+			`sidebars_widgets[${sidebarForCleanup}]`
+		].subscribers.forEach((c) => {
+			c(true)
+		})
 
-		return () => {}
+		requestAnimationFrame(() => {
+			controlForSidebarId.subscribers.forEach((c) => {
+				c(true)
+			})
+		})
+
+		controlForSidebarId.oldContainer = controlForSidebarId.container
+
+		controlForSidebarId.container = $(parentEl.current)
+
+		return () => {
+			controlForSidebarId.container = controlForSidebarId.oldContainer
+		}
 	}, [])
 
 	return <div className="ct-option-widget-area" ref={parentEl}></div>

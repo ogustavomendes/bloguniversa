@@ -9,14 +9,18 @@
 }
 
 .site-title {
-	// display: inline-block;
+	display: block;
 	margin-bottom: 0;
-	line-height: 1.5;
+	// line-height: 1.5;
 }
 
 .site-description {
 	color: var(--color);
 	margin-bottom: 0;
+
+	@include media-breakpoint-up (lg) {
+		white-space: nowrap;
+	}
 
 	&:not(:only-child) {
 		margin-top: 0.3em;

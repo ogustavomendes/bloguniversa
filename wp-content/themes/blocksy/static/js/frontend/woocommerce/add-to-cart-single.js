@@ -122,5 +122,6 @@ export const mount = (el, { event }) => {
 		return
 	}
 
+	ctEvents.trigger('ct:header:update')
 	singleProductAddToCart($(el))
 }

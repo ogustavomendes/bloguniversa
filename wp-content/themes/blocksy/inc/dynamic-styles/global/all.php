@@ -658,3 +658,31 @@ if ($has_passepartout !== 'no') {
 		],
 	]);
 }
+
+
+// breadcrumbs
+blocksy_output_colors([
+	'value' => get_theme_mod('breadcrumbsFontColor'),
+	'default' => [
+		'default' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+		'initial' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+		'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+	],
+	'css' => $css,
+	'variables' => [
+		'default' => [
+			'selector' => '.ct-breadcrumbs',
+			'variable' => 'color'
+		],
+
+		'initial' => [
+			'selector' => '.ct-breadcrumbs',
+			'variable' => 'linkInitialColor'
+		],
+
+		'hover' => [
+			'selector' => '.ct-breadcrumbs',
+			'variable' => 'linkHoverColor'
+		],
+	],
+]);

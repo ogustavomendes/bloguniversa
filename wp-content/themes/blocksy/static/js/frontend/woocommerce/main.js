@@ -1,4 +1,15 @@
 import { onDocumentLoaded } from '../../helpers'
+import ctEvents from 'ct-events'
+import $ from 'jquery'
+
+function isTouchDevice() {
+	try {
+		document.createEvent('TouchEvent')
+		return true
+	} catch (e) {
+		return false
+	}
+}
 
 export const wooEntryPoints = [
 	{
@@ -18,13 +29,18 @@ export const wooEntryPoints = [
 				'.woocommerce-product-gallery .ct-image-container'
 			),
 		load: () => import('./variable-products'),
-		trigger: ['hover'],
+		...(isTouchDevice()
+			? {}
+			: {
+					trigger: ['hover'],
+			  }),
 	},
 
 	{
 		els: '.quantity',
 		load: () => import('./quantity-input'),
 		forcedEvents: ['ct:add-to-cart:quantity'],
+		events: ['ct:header:update', 'ct:modal:opened'],
 		trigger: ['hover'],
 	},
 
@@ -38,14 +54,14 @@ export const wooEntryPoints = [
 	},
 
 	{
-		els: '.ct-header-cart',
+		els: '.ct-header-cart, .ajax_add_to_cart',
 		load: () => import('./mini-cart'),
 		events: ['ct:header:update'],
-		trigger: ['scroll'],
+		trigger: ['hover-with-touch'],
 	},
 ]
 
-onDocumentLoaded(() => {
+const initShortcut = () => {
 	setTimeout(() => {
 		let maybeShortcutCart = document.querySelector(
 			'.ct-shortcuts-container [data-shortcut="cart"]'
@@ -54,7 +70,7 @@ onDocumentLoaded(() => {
 		if (maybeShortcutCart && !maybeShortcutCart.hasClickListener) {
 			maybeShortcutCart.hasClickListener = true
 
-			maybeShortcutCart.addEventListener('mouseover', (event) => {
+			const handleEvent = (event) => {
 				let maybeCart = document.querySelector(
 					'.ct-header-cart .ct-offcanvas-trigger'
 				)
@@ -66,33 +82,50 @@ onDocumentLoaded(() => {
 				event.preventDefault()
 
 				maybeCart.dispatchEvent(
-					new MouseEvent('mouseover', {
+					new MouseEvent(event.type, {
 						view: window,
 						bubbles: true,
 						cancelable: true,
 					})
 				)
-			})
+			}
 
-			maybeShortcutCart.addEventListener('click', (event) => {
-				let maybeCart = document.querySelector(
-					'.ct-header-cart .ct-offcanvas-trigger'
-				)
-
-				if (!maybeCart) {
-					return
-				}
-
-				event.preventDefault()
-
-				maybeCart.dispatchEvent(
-					new MouseEvent('click', {
-						view: window,
-						bubbles: true,
-						cancelable: true,
-					})
-				)
-			})
+			maybeShortcutCart.addEventListener('mouseover', handleEvent)
+			maybeShortcutCart.addEventListener('click', handleEvent)
 		}
+
+		;[...document.querySelectorAll('#woo-cart-panel .qty')].map((el) => {
+			if (el.hasChangeListener) {
+				return
+			}
+
+			el.hasChangeListener = true
+
+			$(el).on('change', (e) => {
+				var item_hash = $(el)
+					.attr('name')
+					.replace(/cart\[([\w]+)\]\[qty\]/g, '$1')
+
+				var item_quantity = $(el).val()
+				var currentVal = parseFloat(item_quantity)
+
+				$.ajax({
+					type: 'POST',
+					url: ct_localizations.ajax_url,
+					data: {
+						action: 'blocksy_update_qty_cart',
+						hash: item_hash,
+						quantity: currentVal,
+					},
+					success: (data) => {
+						jQuery('body').trigger('updated_wc_div')
+						ctEvents.trigger('ct:header:update')
+					},
+				})
+			})
+		})
 	}, 100)
-})
+}
+
+onDocumentLoaded(initShortcut)
+ctEvents.on('blocksy:frontend:init', initShortcut)

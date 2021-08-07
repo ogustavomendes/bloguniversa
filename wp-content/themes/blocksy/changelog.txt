@@ -1,3 +1,26 @@
+1.8.4.5: 2021-08-02
+- Improvement: Avoid doing one XHR request for big variable products
+- Fix: Breadcrumbs typography options not applied in single product page
+
+1.8.4.4: 2021-07-30
+- Improvement: WooCommerce better logic for gallery updates in variable products
+- Improvement: Cards reveal effect animation
+- Improvement: Site title spacing
+
+1.8.4.3: 2021-07-29
+- Improvement: Responsive menu calculation improvements
+- Improvement: Share box functionality
+- Improvement: WooCommerce cart page remove item button improvement
+- Improvement: WooCommerce product gallery lazy loading
+- Fix: Excessive ID navigation breaks the mobile menu and scrolling
+- Fix: Off canvas cart not working correctly after product is added to cart
+
+1.8.4.3-beta2: 2021-07-28
+- Improvement: Share box functionality
+- Improvement: WooCommerce cart page remove item button improvement
+- Improvement: WooCommerce product gallery lazy loading
+- Fix: Off canvas cart not working correctly after product is added to cart
+
 1.8.4.2: 2021-07-26
 - Improvement: Responsive menu calculations
 - Improvement: Comments validation improvements

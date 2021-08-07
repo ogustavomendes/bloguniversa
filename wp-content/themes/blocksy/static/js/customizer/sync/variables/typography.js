@@ -87,12 +87,19 @@ const loadGoogleFonts = (font_family, variation) => {
 	})
 }
 
-export const typographyOption = ({ id, selector, prefix = '' }) => ({
+export const typographyOption = ({
+	id,
+	selector,
+	prefix = '',
+	extractValue = (v) => v,
+}) => ({
 	[id]: [
 		{
 			variable: withPrefix('fontFamily', prefix),
 			selector,
 			extractValue: (value) => {
+				value = extractValue(value)
+
 				if (value.family === 'Default') {
 					return 'CT_CSS_SKIP_RULE'
 				}
@@ -101,37 +108,64 @@ export const typographyOption = ({ id, selector, prefix = '' }) => ({
 					? "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'"
 					: value.family.replace('ct_typekit_', '')
 			},
-			whenDone: (extractedValue, { variation }) =>
-				loadGoogleFonts(extractedValue, variation),
+			whenDone: (extractedValue, value) => {
+				if (!extractedValue) {
+					return
+				}
+
+				let { variation } = extractValue(value)
+
+				loadGoogleFonts(extractedValue, variation)
+			},
 		},
 
 		{
 			variable: withPrefix('fontWeight', prefix),
 			selector,
-			extractValue: getWeightFor,
-			whenDone: (extractedValue, { family, variation }) =>
-				loadGoogleFonts(family, variation),
+			extractValue: (value) => {
+				value = extractValue(value)
+
+				return getWeightFor(value)
+			},
+			whenDone: (extractedValue, value) => {
+				let { family, variation } = extractValue(value)
+
+				loadGoogleFonts(family, variation)
+			},
 		},
 
 		{
 			variable: withPrefix('fontStyle', prefix),
 			selector,
-			extractValue: getStyleFor,
+			extractValue: (value) => {
+				value = extractValue(value)
 
-			whenDone: (extractedValue, { family, variation }) =>
-				loadGoogleFonts(family, variation),
+				return getStyleFor(value)
+			},
+
+			whenDone: (extractedValue, value) => {
+				let { family, variation } = extractValue(value)
+
+				loadGoogleFonts(family, variation)
+			},
 		},
 
 		{
 			variable: withPrefix('textTransform', prefix),
 			selector,
-			extractValue: (value) => value['text-transform'],
+			extractValue: (value) => {
+				value = extractValue(value)
+				return value['text-transform']
+			},
 		},
 
 		{
 			variable: withPrefix('textDecoration', prefix),
 			selector,
-			extractValue: (value) => value['text-decoration'],
+			extractValue: (value) => {
+				value = extractValue(value)
+				return value['text-decoration']
+			},
 		},
 
 		{
@@ -139,7 +173,10 @@ export const typographyOption = ({ id, selector, prefix = '' }) => ({
 			selector,
 			unit: '',
 			responsive: true,
-			extractValue: (value) => value.size,
+			extractValue: (value) => {
+				value = extractValue(value)
+				return value.size
+			},
 		},
 
 		{
@@ -147,7 +184,10 @@ export const typographyOption = ({ id, selector, prefix = '' }) => ({
 			selector,
 			unit: '',
 			responsive: true,
-			extractValue: (value) => value['line-height'],
+			extractValue: (value) => {
+				value = extractValue(value)
+				return value['line-height']
+			},
 		},
 
 		{
@@ -155,7 +195,10 @@ export const typographyOption = ({ id, selector, prefix = '' }) => ({
 			selector,
 			unit: '',
 			responsive: true,
-			extractValue: (value) => value['letter-spacing'],
+			extractValue: (value) => {
+				value = extractValue(value)
+				return value['letter-spacing']
+			},
 		},
 	],
 })
@@ -248,5 +291,10 @@ export const getTypographyVariablesFor = () => ({
 		id: 'cardProductTitleFont',
 		selector:
 			'[data-products] .woocommerce-loop-product__title, [data-products] .woocommerce-loop-category__title',
+	}),
+
+	...typographyOption({
+		id: 'breadcrumbsFont',
+		selector: '.ct-breadcrumbs',
 	}),
 })

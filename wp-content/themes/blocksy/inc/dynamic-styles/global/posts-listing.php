@@ -375,6 +375,51 @@ foreach (get_theme_mod($prefix . '_archive_order', []) as $layer) {
 			]
 		]);
 	}
+
+	if (isset($layer['typography'])) {
+		blocksy_output_font_css([
+			'font_value' => blocksy_akg(
+				'typography',
+				$layer,
+				blocksy_typography_default_values([])
+			),
+			'css' => $css,
+			'tablet_css' => $tablet_css,
+			'mobile_css' => $mobile_css,
+			'selector' => blocksy_prefix_selector('[data-id="' . substr(
+				$layer['__id'],
+				0, 6
+			) . '"]', $prefix)
+		]);
+	}
+
+	if (isset($layer['color'])) {
+		blocksy_output_colors([
+			'value' => blocksy_akg('color', $layer),
+			'default' => [
+				'default' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+				'hover' => [ 'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT') ],
+			],
+			'css' => $css,
+			'variables' => [
+				'default' => [
+					'selector' => blocksy_prefix_selector('[data-id="' . substr(
+						$layer['__id'],
+						0, 6
+					) . '"]', $prefix),
+					'variable' => 'color'
+				],
+
+				'hover' => [
+					'selector' => blocksy_prefix_selector('[data-id="' . substr(
+						$layer['__id'],
+						0, 6
+					) . '"]', $prefix),
+					'variable' => 'linkHoverColor'
+				],
+			],
+		]);
+	}
 }
 
 $cards_gap = get_theme_mod($prefix. '_cardsGap', 30);

@@ -562,489 +562,500 @@ $options = [
 			blocksy_rand_md5() => [
 				'title' => __( 'Design', 'blocksy' ),
 				'type' => 'tab',
-				'options' => [
-
-					blocksy_rand_md5() => [
-						'type' => 'ct-condition',
-						'condition' => [
-							$prefix . 'archive_order:array-ids:title:enabled' => '!no'
-						],
-						'options' => [
-
-							$prefix . 'cardTitleFont' => [
-								'type' => 'ct-typography',
-								'label' => __( 'Title Font', 'blocksy' ),
-								'sync' => 'live',
-								'value' => blocksy_typography_default_values([
-									'size' => [
-										'desktop' => '20px',
-										'tablet'  => '20px',
-										'mobile'  => '18px'
-									],
-									'line-height' => '1.3'
-								]),
+				'options' => apply_filters('blocksy:options:posts-listing:design', [
+					[
+						blocksy_rand_md5() => [
+							'type' => 'ct-condition',
+							'condition' => [
+								$prefix . 'archive_order:array-ids:title:enabled' => '!no'
 							],
-
-							$prefix . 'cardTitleColor' => [
-								'label' => __( 'Title Font Color', 'blocksy' ),
-								'type'  => 'ct-color-picker',
-								'sync' => 'live',
-								'design' => 'inline',
-
-								'value' => [
-									'default' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
-
-									'hover' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
+							'options' => [
+								$prefix . 'cardTitleFont' => [
+									'type' => 'ct-typography',
+									'label' => __( 'Title Font', 'blocksy' ),
+									'sync' => 'live',
+									'value' => blocksy_typography_default_values([
+										'size' => [
+											'desktop' => '20px',
+											'tablet'  => '20px',
+											'mobile'  => '18px'
+										],
+										'line-height' => '1.3'
+									]),
 								],
 
-								'pickers' => [
-									[
-										'title' => __( 'Initial', 'blocksy' ),
-										'id' => 'default',
-										'inherit' => [
-											'var(--heading-1-color, var(--headings-color))' => [
-												$prefix . 'archive_order:array-ids:title:heading_tag' => 'h1'
-											],
+								$prefix . 'cardTitleColor' => [
+									'label' => __( 'Title Font Color', 'blocksy' ),
+									'type'  => 'ct-color-picker',
+									'sync' => 'live',
+									'design' => 'inline',
 
-											'var(--heading-2-color, var(--headings-color))' => [
-												$prefix . 'archive_order:array-ids:title:heading_tag' => 'h2'
-											],
+									'value' => [
+										'default' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
 
-											'var(--heading-3-color, var(--headings-color))' => [
-												$prefix . 'archive_order:array-ids:title:heading_tag' => 'h3'
-											],
+										'hover' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+									],
 
-											'var(--heading-4-color, var(--headings-color))' => [
-												$prefix . 'archive_order:array-ids:title:heading_tag' => 'h4'
-											],
+									'pickers' => [
+										[
+											'title' => __( 'Initial', 'blocksy' ),
+											'id' => 'default',
+											'inherit' => [
+												'var(--heading-1-color, var(--headings-color))' => [
+													$prefix . 'archive_order:array-ids:title:heading_tag' => 'h1'
+												],
 
-											'var(--heading-5-color, var(--headings-color))' => [
-												$prefix . 'archive_order:array-ids:title:heading_tag' => 'h5'
-											],
+												'var(--heading-2-color, var(--headings-color))' => [
+													$prefix . 'archive_order:array-ids:title:heading_tag' => 'h2'
+												],
 
-											'var(--heading-6-color, var(--headings-color))' => [
-												$prefix . 'archive_order:array-ids:title:heading_tag' => 'h6'
+												'var(--heading-3-color, var(--headings-color))' => [
+													$prefix . 'archive_order:array-ids:title:heading_tag' => 'h3'
+												],
+
+												'var(--heading-4-color, var(--headings-color))' => [
+													$prefix . 'archive_order:array-ids:title:heading_tag' => 'h4'
+												],
+
+												'var(--heading-5-color, var(--headings-color))' => [
+													$prefix . 'archive_order:array-ids:title:heading_tag' => 'h5'
+												],
+
+												'var(--heading-6-color, var(--headings-color))' => [
+													$prefix . 'archive_order:array-ids:title:heading_tag' => 'h6'
+												]
 											]
-										]
-									],
+										],
 
-									[
-										'title' => __( 'Hover', 'blocksy' ),
-										'id' => 'hover',
-										'inherit' => 'var(--linkHoverColor)'
-									],
-								],
-							],
-
-							blocksy_rand_md5() => [
-								'type' => 'ct-divider',
-							],
-
-						],
-					],
-
-					blocksy_rand_md5() => [
-						'type' => 'ct-condition',
-						'condition' => [
-							$prefix . 'archive_order:array-ids:excerpt:enabled' => '!no'
-						],
-						'options' => [
-
-							$prefix . 'cardExcerptFont' => [
-								'type' => 'ct-typography',
-								'label' => __( 'Excerpt Font', 'blocksy' ),
-								'sync' => 'live',
-								'value' => blocksy_typography_default_values([]),
-							],
-
-							$prefix . 'cardExcerptColor' => [
-								'label' => __( 'Excerpt Color', 'blocksy' ),
-								'type'  => 'ct-color-picker',
-								'design' => 'inline',
-								'noColor' => [ 'background' => 'var(--color)'],
-								'sync' => 'live',
-								'value' => [
-									'default' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										[
+											'title' => __( 'Hover', 'blocksy' ),
+											'id' => 'hover',
+											'inherit' => 'var(--linkHoverColor)'
+										],
 									],
 								],
 
-								'pickers' => [
-									[
-										'title' => __( 'Initial', 'blocksy' ),
-										'id' => 'default',
-										'inherit' => 'var(--color)'
-									],
+								blocksy_rand_md5() => [
+									'type' => 'ct-divider',
 								],
-							],
 
-							blocksy_rand_md5() => [
-								'type' => 'ct-divider',
-							],
-
-						],
-					],
-
-					$prefix . 'cardMetaFont' => [
-						'type' => 'ct-typography',
-						'label' => __( 'Meta Font', 'blocksy' ),
-						'sync' => 'live',
-						'value' => blocksy_typography_default_values([
-							'size' => [
-								'desktop' => '12px',
-								'tablet'  => '12px',
-								'mobile'  => '12px'
-							],
-							'variation' => 'n6',
-							'text-transform' => 'uppercase',
-						]),
-					],
-
-					$prefix . 'cardMetaColor' => [
-						'label' => __( 'Meta Font Color', 'blocksy' ),
-						'type'  => 'ct-color-picker',
-						'design' => 'inline',
-						'noColor' => [ 'background' => 'var(--color)'],
-						'sync' => 'live',
-						'value' => [
-							'default' => [
-								'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-							],
-
-							'hover' => [
-								'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
 							],
 						],
 
-						'pickers' => [
-							[
-								'title' => __( 'Initial', 'blocksy' ),
-								'id' => 'default',
-								'inherit' => 'var(--color)'
+						blocksy_rand_md5() => [
+							'type' => 'ct-condition',
+							'condition' => [
+								$prefix . 'archive_order:array-ids:excerpt:enabled' => '!no'
 							],
+							'options' => [
 
-							[
-								'title' => __( 'Hover', 'blocksy' ),
-								'id' => 'hover',
-								'inherit' => 'var(--linkHoverColor)'
-							],
-						],
-					],
+								$prefix . 'cardExcerptFont' => [
+									'type' => 'ct-typography',
+									'label' => __( 'Excerpt Font', 'blocksy' ),
+									'sync' => 'live',
+									'value' => blocksy_typography_default_values([]),
+								],
 
-					$prefix . 'card_meta_button_type_font_colors' => [
-						'label' => __( 'Meta Button Font', 'blocksy' ),
-						'type'  => 'ct-color-picker',
-						'design' => 'inline',
-						'divider' => 'top',
-						'noColor' => [ 'background' => 'var(--color)'],
-						'sync' => 'live',
-						'value' => [
-							'default' => [
-								'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-							],
-
-							'hover' => [
-								'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-							],
-						],
-
-						'pickers' => [
-							[
-								'title' => __( 'Initial', 'blocksy' ),
-								'id' => 'default',
-								'inherit' => 'var(--buttonTextInitialColor)'
-							],
-
-							[
-								'title' => __( 'Hover', 'blocksy' ),
-								'id' => 'hover',
-								'inherit' => 'var(--buttonTextHoverColor)'
-							],
-						],
-					],
-
-					$prefix . 'card_meta_button_type_background_colors' => [
-						'label' => __( 'Meta Button Background', 'blocksy' ),
-						'type'  => 'ct-color-picker',
-						'design' => 'inline',
-						'noColor' => [ 'background' => 'var(--color)'],
-						'sync' => 'live',
-						'value' => [
-							'default' => [
-								'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-							],
-
-							'hover' => [
-								'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-							],
-						],
-
-						'pickers' => [
-							[
-								'title' => __( 'Initial', 'blocksy' ),
-								'id' => 'default',
-								'inherit' => 'var(--buttonInitialColor)'
-							],
-
-							[
-								'title' => __( 'Hover', 'blocksy' ),
-								'id' => 'hover',
-								'inherit' => 'var(--buttonHoverColor)'
-							],
-						],
-					],
-
-
-					blocksy_rand_md5() => [
-						'type' => 'ct-condition',
-						'condition' => [
-							$prefix . 'archive_order:array-ids:read_more:button_type' => 'simple',
-							$prefix . 'archive_order:array-ids:read_more:enabled' => '!no'
-						],
-						'options' => [
-
-							blocksy_rand_md5() => [
-								'type' => 'ct-divider',
-							],
-
-							$prefix . 'cardButtonSimpleTextColor' => [
-								'label' => __( 'Button Font Color', 'blocksy' ),
-								'sync' => 'live',
-								'type'  => 'ct-color-picker',
-								'design' => 'inline',
-
-								'value' => [
-									'default' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+								$prefix . 'cardExcerptColor' => [
+									'label' => __( 'Excerpt Color', 'blocksy' ),
+									'type'  => 'ct-color-picker',
+									'design' => 'inline',
+									'noColor' => [ 'background' => 'var(--color)'],
+									'sync' => 'live',
+									'value' => [
+										'default' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
 									],
 
-									'hover' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+									'pickers' => [
+										[
+											'title' => __( 'Initial', 'blocksy' ),
+											'id' => 'default',
+											'inherit' => 'var(--color)'
+										],
 									],
 								],
 
-								'pickers' => [
-									[
-										'title' => __( 'Initial', 'blocksy' ),
-										'id' => 'default',
-										'inherit' => 'var(--linkInitialColor)'
-									],
+								blocksy_rand_md5() => [
+									'type' => 'ct-divider',
+								],
 
-									[
-										'title' => __( 'Hover', 'blocksy' ),
-										'id' => 'hover',
-										'inherit' => 'var(--linkHoverColor)'
-									],
+							],
+						],
+
+						$prefix . 'cardMetaFont' => [
+							'type' => 'ct-typography',
+							'label' => __( 'Meta Font', 'blocksy' ),
+							'sync' => 'live',
+							'value' => blocksy_typography_default_values([
+								'size' => [
+									'desktop' => '12px',
+									'tablet'  => '12px',
+									'mobile'  => '12px'
+								],
+								'variation' => 'n6',
+								'text-transform' => 'uppercase',
+							]),
+						],
+
+						$prefix . 'cardMetaColor' => [
+							'label' => __( 'Meta Font Color', 'blocksy' ),
+							'type'  => 'ct-color-picker',
+							'design' => 'inline',
+							'noColor' => [ 'background' => 'var(--color)'],
+							'sync' => 'live',
+							'value' => [
+								'default' => [
+									'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+								],
+
+								'hover' => [
+									'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
 								],
 							],
 
+							'pickers' => [
+								[
+									'title' => __( 'Initial', 'blocksy' ),
+									'id' => 'default',
+									'inherit' => 'var(--color)'
+								],
+
+								[
+									'title' => __( 'Hover', 'blocksy' ),
+									'id' => 'hover',
+									'inherit' => 'var(--linkHoverColor)'
+								],
+							],
+						],
+
+						blocksy_rand_md5() => [
+							'type' => 'ct-has-meta-category-button',
+							'optionId' => $prefix . 'archive_order',
+							'options' => [
+								$prefix . 'card_meta_button_type_font_colors' => [
+									'label' => __( 'Meta Button Font', 'blocksy' ),
+									'type'  => 'ct-color-picker',
+									'design' => 'inline',
+									'divider' => 'top',
+									'noColor' => [ 'background' => 'var(--color)'],
+									'sync' => 'live',
+									'value' => [
+										'default' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+
+										'hover' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+									],
+
+									'pickers' => [
+										[
+											'title' => __( 'Initial', 'blocksy' ),
+											'id' => 'default',
+											'inherit' => 'var(--buttonTextInitialColor)'
+										],
+
+										[
+											'title' => __( 'Hover', 'blocksy' ),
+											'id' => 'hover',
+											'inherit' => 'var(--buttonTextHoverColor)'
+										],
+									],
+								],
+
+								$prefix . 'card_meta_button_type_background_colors' => [
+									'label' => __( 'Meta Button Background', 'blocksy' ),
+									'type'  => 'ct-color-picker',
+									'design' => 'inline',
+									'noColor' => [ 'background' => 'var(--color)'],
+									'sync' => 'live',
+									'value' => [
+										'default' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+
+										'hover' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+									],
+
+									'pickers' => [
+										[
+											'title' => __( 'Initial', 'blocksy' ),
+											'id' => 'default',
+											'inherit' => 'var(--buttonInitialColor)'
+										],
+
+										[
+											'title' => __( 'Hover', 'blocksy' ),
+											'id' => 'hover',
+											'inherit' => 'var(--buttonHoverColor)'
+										],
+									],
+								],
+							]
+						],
+
+						blocksy_rand_md5() => [
+							'type' => 'ct-condition',
+							'condition' => [
+								$prefix . 'archive_order:array-ids:read_more:button_type' => 'simple',
+								$prefix . 'archive_order:array-ids:read_more:enabled' => '!no'
+							],
+							'options' => [
+
+								blocksy_rand_md5() => [
+									'type' => 'ct-divider',
+								],
+
+								$prefix . 'cardButtonSimpleTextColor' => [
+									'label' => __( 'Button Font Color', 'blocksy' ),
+									'sync' => 'live',
+									'type'  => 'ct-color-picker',
+									'design' => 'inline',
+
+									'value' => [
+										'default' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+
+										'hover' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+									],
+
+									'pickers' => [
+										[
+											'title' => __( 'Initial', 'blocksy' ),
+											'id' => 'default',
+											'inherit' => 'var(--linkInitialColor)'
+										],
+
+										[
+											'title' => __( 'Hover', 'blocksy' ),
+											'id' => 'hover',
+											'inherit' => 'var(--linkHoverColor)'
+										],
+									],
+								],
+
+							],
+						],
+
+						blocksy_rand_md5() => [
+							'type' => 'ct-condition',
+							'condition' => [
+								$prefix . 'archive_order:array-ids:read_more:button_type' => 'background',
+								$prefix . 'archive_order:array-ids:read_more:enabled' => '!no'
+							],
+							'options' => [
+
+								blocksy_rand_md5() => [
+									'type' => 'ct-divider',
+								],
+
+								$prefix . 'cardButtonBackgroundTextColor' => [
+									'label' => __( 'Button Font Color', 'blocksy' ),
+									'sync' => 'live',
+									'type'  => 'ct-color-picker',
+									'design' => 'inline',
+
+									'value' => [
+										'default' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+
+										'hover' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+									],
+
+									'pickers' => [
+										[
+											'title' => __( 'Initial', 'blocksy' ),
+											'id' => 'default',
+											'inherit' => 'var(--buttonTextInitialColor)'
+										],
+
+										[
+											'title' => __( 'Hover', 'blocksy' ),
+											'id' => 'hover',
+											'inherit' => 'var(--buttonTextHoverColor)'
+										],
+									],
+								],
+
+							],
+						],
+
+						blocksy_rand_md5() => [
+							'type' => 'ct-condition',
+							'condition' => [
+								$prefix . 'archive_order:array-ids:read_more:button_type' => 'outline',
+								$prefix . 'archive_order:array-ids:read_more:enabled' => '!no'
+							],
+							'options' => [
+
+								blocksy_rand_md5() => [
+									'type' => 'ct-divider',
+								],
+
+								$prefix . 'cardButtonOutlineTextColor' => [
+									'label' => __( 'Button Font Color', 'blocksy' ),
+									'type'  => 'ct-color-picker',
+									'sync' => 'live',
+									'design' => 'inline',
+
+									'value' => [
+										'default' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+
+										'hover' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+									],
+
+									'pickers' => [
+										[
+											'title' => __( 'Initial', 'blocksy' ),
+											'id' => 'default',
+											'inherit' => 'var(--linkInitialColor)'
+										],
+
+										[
+											'title' => __( 'Hover', 'blocksy' ),
+											'id' => 'hover',
+											'inherit' => 'var(--linkHoverColor)'
+										],
+									],
+								],
+
+							],
+						],
+
+						blocksy_rand_md5() => [
+							'type' => 'ct-condition',
+							'condition' => [
+								$prefix . 'archive_order:array-ids:read_more:button_type' => '!simple',
+								$prefix . 'archive_order:array-ids:read_more:enabled' => '!no'
+							],
+							'options' => [
+
+								$prefix . 'cardButtonColor' => [
+									'label' => __( 'Button Color', 'blocksy' ),
+									'sync' => 'live',
+									'type'  => 'ct-color-picker',
+									'design' => 'inline',
+
+									'value' => [
+										'default' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+
+										'hover' => [
+											'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
+										],
+									],
+
+									'pickers' => [
+										[
+											'title' => __( 'Initial', 'blocksy' ),
+											'id' => 'default',
+											'inherit' => 'var(--buttonInitialColor)'
+										],
+
+										[
+											'title' => __( 'Hover', 'blocksy' ),
+											'id' => 'hover',
+											'inherit' => 'var(--buttonHoverColor)'
+										],
+									],
+								],
+
+							],
+						],
+
+						blocksy_rand_md5() =>  [
+							'type' => 'ct-condition',
+							'condition' => [
+								$prefix . 'card_type' => 'simple',
+								$prefix . 'archive_order:array-ids:featured_image:enabled' => '!no'
+
+							],
+							'options' => [
+
+								blocksy_rand_md5() => [
+									'type' => 'ct-divider',
+								],
+
+								$prefix . 'cardThumbRadius' => [
+									'label' => __( 'Featured Image Radius', 'blocksy' ),
+									'type' => 'ct-spacing',
+									'sync' => 'live',
+									'value' => blocksy_spacing_value([
+										'linked' => true,
+									]),
+									'responsive' => true
+								],
+
+								$prefix . 'cardDivider' => [
+									'label' => __( 'Card bottom divider', 'blocksy' ),
+									'type' => 'ct-border',
+									'sync' => 'live',
+									'design' => 'inline',
+									'divider' => 'top',
+									'value' => [
+										'width' => 1,
+										'style' => 'dashed',
+										'color' => [
+											'color' => 'rgba(224, 229, 235, 0.8)',
+										],
+									]
+								],
+							],
+						],
+
+						blocksy_rand_md5() => [
+							'type' => 'ct-condition',
+							'condition' => [
+								$prefix . 'archive_order:array-ids:divider:enabled' => '!no'
+
+							],
+							'options' => [
+								blocksy_rand_md5() => [
+									'type' => 'ct-divider',
+								],
+
+								$prefix . 'entryDivider' => [
+									'label' => __( 'Card Divider', 'blocksy' ),
+									'type' => 'ct-border',
+									'sync' => 'live',
+									'design' => 'inline',
+									'value' => [
+										'width' => 1,
+										'style' => 'solid',
+										'color' => [
+											'color' => 'rgba(224, 229, 235, 0.8)',
+										],
+									]
+								],
+							],
 						],
 					],
 
-					blocksy_rand_md5() => [
-						'type' => 'ct-condition',
-						'condition' => [
-							$prefix . 'archive_order:array-ids:read_more:button_type' => 'background',
-							$prefix . 'archive_order:array-ids:read_more:enabled' => '!no'
-						],
-						'options' => [
-
-							blocksy_rand_md5() => [
-								'type' => 'ct-divider',
-							],
-
-							$prefix . 'cardButtonBackgroundTextColor' => [
-								'label' => __( 'Button Font Color', 'blocksy' ),
-								'sync' => 'live',
-								'type'  => 'ct-color-picker',
-								'design' => 'inline',
-
-								'value' => [
-									'default' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
-
-									'hover' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
-								],
-
-								'pickers' => [
-									[
-										'title' => __( 'Initial', 'blocksy' ),
-										'id' => 'default',
-										'inherit' => 'var(--buttonTextInitialColor)'
-									],
-
-									[
-										'title' => __( 'Hover', 'blocksy' ),
-										'id' => 'hover',
-										'inherit' => 'var(--buttonTextHoverColor)'
-									],
-								],
-							],
-
-						],
-					],
-
-					blocksy_rand_md5() => [
-						'type' => 'ct-condition',
-						'condition' => [
-							$prefix . 'archive_order:array-ids:read_more:button_type' => 'outline',
-							$prefix . 'archive_order:array-ids:read_more:enabled' => '!no'
-						],
-						'options' => [
-
-							blocksy_rand_md5() => [
-								'type' => 'ct-divider',
-							],
-
-							$prefix . 'cardButtonOutlineTextColor' => [
-								'label' => __( 'Button Font Color', 'blocksy' ),
-								'type'  => 'ct-color-picker',
-								'sync' => 'live',
-								'design' => 'inline',
-
-								'value' => [
-									'default' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
-
-									'hover' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
-								],
-
-								'pickers' => [
-									[
-										'title' => __( 'Initial', 'blocksy' ),
-										'id' => 'default',
-										'inherit' => 'var(--linkInitialColor)'
-									],
-
-									[
-										'title' => __( 'Hover', 'blocksy' ),
-										'id' => 'hover',
-										'inherit' => 'var(--linkHoverColor)'
-									],
-								],
-							],
-
-						],
-					],
-
-					blocksy_rand_md5() => [
-						'type' => 'ct-condition',
-						'condition' => [
-							$prefix . 'archive_order:array-ids:read_more:button_type' => '!simple',
-							$prefix . 'archive_order:array-ids:read_more:enabled' => '!no'
-						],
-						'options' => [
-
-							$prefix . 'cardButtonColor' => [
-								'label' => __( 'Button Color', 'blocksy' ),
-								'sync' => 'live',
-								'type'  => 'ct-color-picker',
-								'design' => 'inline',
-
-								'value' => [
-									'default' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
-
-									'hover' => [
-										'color' => Blocksy_Css_Injector::get_skip_rule_keyword('DEFAULT'),
-									],
-								],
-
-								'pickers' => [
-									[
-										'title' => __( 'Initial', 'blocksy' ),
-										'id' => 'default',
-										'inherit' => 'var(--buttonInitialColor)'
-									],
-
-									[
-										'title' => __( 'Hover', 'blocksy' ),
-										'id' => 'hover',
-										'inherit' => 'var(--buttonHoverColor)'
-									],
-								],
-							],
-
-						],
-					],
-
-					blocksy_rand_md5() => [
-						'type' => 'ct-condition',
-						'condition' => [
-							$prefix . 'card_type' => 'simple',
-							$prefix . 'archive_order:array-ids:featured_image:enabled' => '!no'
-
-						],
-						'options' => [
-
-							blocksy_rand_md5() => [
-								'type' => 'ct-divider',
-							],
-
-							$prefix . 'cardThumbRadius' => [
-								'label' => __( 'Featured Image Radius', 'blocksy' ),
-								'type' => 'ct-spacing',
-								'sync' => 'live',
-								'value' => blocksy_spacing_value([
-									'linked' => true,
-								]),
-								'responsive' => true
-							],
-
-							$prefix . 'cardDivider' => [
-								'label' => __( 'Card bottom divider', 'blocksy' ),
-								'type' => 'ct-border',
-								'sync' => 'live',
-								'design' => 'inline',
-								'divider' => 'top',
-								'value' => [
-									'width' => 1,
-									'style' => 'dashed',
-									'color' => [
-										'color' => 'rgba(224, 229, 235, 0.8)',
-									],
-								]
-							],
-						],
-					],
-
-					blocksy_rand_md5() => [
-						'type' => 'ct-condition',
-						'condition' => [
-							$prefix . 'archive_order:array-ids:divider:enabled' => '!no'
-
-						],
-						'options' => [
-							blocksy_rand_md5() => [
-								'type' => 'ct-divider',
-							],
-
-							$prefix . 'entryDivider' => [
-								'label' => __( 'Card Divider', 'blocksy' ),
-								'type' => 'ct-border',
-								'sync' => 'live',
-								'design' => 'inline',
-								'value' => [
-									'width' => 1,
-									'style' => 'solid',
-									'color' => [
-										'color' => 'rgba(224, 229, 235, 0.8)',
-									],
-								]
-							],
-						],
-					],
+					apply_filters(
+						'blocksy:options:posts-listing:design:before_card_background',
+						[],
+						trim($prefix, '_')
+					),
 
 					blocksy_rand_md5() => [
 						'type' => 'ct-condition',
@@ -1126,7 +1137,7 @@ $options = [
 
 						],
 					],
-				],
+				], trim($prefix, '_')),
 			],
 		]
 	],

@@ -47,12 +47,14 @@ const LayerControls = SortableHandle(({ items, onChange, value }) => {
 						)
 					)
 				}}>
-				<svg width="15px" height="15px" viewBox="0 0 24 24">
+				<svg width="13px" height="13px" viewBox="0 0 24 24">
 					<path d="M12,4C4.1,4,0,12,0,12s3.1,8,12,8c8.1,0,12-8,12-8S20.1,4,12,4z M12,17c-2.9,0-5-2.2-5-5c0-2.8,2.1-5,5-5s5,2.2,5,5C17,14.8,14.9,17,12,17z M12,9c-1.7,0-3,1.4-3,3c0,1.6,1.3,3,3,3s3-1.4,3-3C15,10.4,13.7,9,12,9z" />
 				</svg>
 			</button>
 
-			<span>{window._.template(option['preview-template'])(value)}</span>
+			<div className="ct-layer-label">
+				<span>{window._.template(option['preview-template'])(value)}</span>
+			</div>
 
 			<button
 				type="button"

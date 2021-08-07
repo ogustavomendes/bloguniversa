@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import ctEvents from 'ct-events'
+import { markImagesAsLoaded } from '../lazy-load-helpers'
 
 let originalImageUpdate = null
 
@@ -17,6 +18,20 @@ const cachedFetch = (url) =>
 					store[url] = response.clone()
 				})
 		  )
+
+const makeUrlFor = ({ variation, productId, isQuickView }) => {
+	let url = new URL(ct_localizations.ajax_url)
+	let params = new URLSearchParams(url.search.slice(1))
+
+	params.append('action', 'blocksy_get_product_view_for_variation')
+	params.append('variation_id', variation.variation_id)
+	params.append('product_id', productId)
+	params.append('is_quick_view', isQuickView)
+
+	url.search = `?${params.toString()}`
+
+	return url.toString()
+}
 
 export const mount = (el) => {
 	if (!$ || !$.fn || !$.fn.wc_variations_image_update) {
@@ -109,6 +124,16 @@ export const mount = (el) => {
 			currentVariation.removeAttribute('data-current-variation')
 		}
 
+		if (currentVariationObj && nextVariationObj) {
+			if (
+				nextVariationObj.blocksy_gallery_source === 'default' &&
+				currentVariationObj.blocksy_gallery_source === 'default' &&
+				nextVariationObj.image_id === currentVariationObj.image_id
+			) {
+				return
+			}
+		}
+
 		if (
 			allVariations &&
 			currentVariation.querySelector('[data-flexy]') &&
@@ -135,10 +160,7 @@ export const mount = (el) => {
 			const pill = currentVariation.querySelector(`.flexy-pills > *`)
 				.children[pillIndex]
 
-			if (
-				((!variation && true) || (variation && maybePillImage)) &&
-				pill
-			) {
+			if ((!variation || (variation && maybePillImage)) && pill) {
 				if (
 					currentVariation
 						.querySelector('[data-flexy]')
@@ -165,41 +187,65 @@ export const mount = (el) => {
 			}
 		}
 
-		let url = new URL(ct_localizations.ajax_url)
-		let params = new URLSearchParams(url.search.slice(1))
+		const acceptHtml = (html) => {
+			const div = document.createElement('div')
+			div.innerHTML = html
 
-		params.append('action', 'blocksy_get_product_view_for_variation')
-		params.append('variation_id', variation.variation_id)
-		params.append('product_id', productId)
-		params.append('is_quick_view', isQuickView)
+			currentVariation.innerHTML = div.firstElementChild.innerHTML
 
-		url.search = `?${params.toString()}`
+			markImagesAsLoaded(currentVariation)
+
+			currentVariation.hasLazyLoadClickHoverListener = false
+
+			setTimeout(() => {
+				ctEvents.trigger('blocksy:frontend:init')
+				currentVariation.removeAttribute('data-state')
+			})
+		}
+
+		if (variation.blocksy_gallery_html) {
+			acceptHtml(variation.blocksy_gallery_html)
+			return
+		}
 
 		currentVariation.removeAttribute('style')
 		requestAnimationFrame(() => {
 			currentVariation.dataset.state = 'loading'
 		})
 
-		cachedFetch(url.toString(), {
-			method: 'POST',
-		})
+		let maybeLoadedVariation = allVariations
+			? allVariations.find(
+					(nestedVariation) =>
+						store[
+							makeUrlFor({
+								variation: nestedVariation,
+								productId,
+								isQuickView,
+							})
+						] &&
+						nestedVariation.image_id === variation.image_id &&
+						variation.blocksy_gallery_source === 'default' &&
+						nestedVariation.blocksy_gallery_source === 'default'
+			  )
+			: null
+
+		cachedFetch(
+			makeUrlFor({
+				variation: maybeLoadedVariation || variation,
+				productId,
+				isQuickView,
+			}),
+			{
+				method: 'POST',
+			}
+		)
 			.then((response) => response.json())
 			.then(({ success, data }) => {
 				if (!success) {
 					return
 				}
 
-				const div = document.createElement('div')
-				div.innerHTML = data.html
-
-				currentVariation.innerHTML = div.firstElementChild.innerHTML
-
-				currentVariation.hasLazyLoadClickHoverListener = false
-
-				setTimeout(() => {
-					ctEvents.trigger('blocksy:frontend:init')
-					currentVariation.removeAttribute('data-state')
-				})
+				acceptHtml(data.html)
 			})
 	}
 }

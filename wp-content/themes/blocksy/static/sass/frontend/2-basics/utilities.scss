@@ -41,7 +41,7 @@
 
 // disable transitions
 .ct-disable-transitions,
-.ct-disable-transitions * {
+.ct-disable-transitions *:not(.entry-card) {
 	transition: none !important;
 }
 

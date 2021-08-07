@@ -8,21 +8,8 @@
 			width: 33px;
 		}
 
-		span {
+		.ct-layer-label {
 			font-size: 11px;
-			font-weight: 500;
-			padding: 0 10px;
-		}
-
-		.ct-visibility {
-			svg {
-				width: 13px;
-				height: 13px;
-			}
-
-			&:before {
-				width: 15px;
-			}
 		}
 	}
 

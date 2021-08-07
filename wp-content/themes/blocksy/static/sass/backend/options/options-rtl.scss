@@ -336,17 +336,6 @@ body.rtl {
 		}
 	}
 
-	// layers
-	.ct-add-layer-controls button {
-		margin-left: initial !important;
-		margin-right: 10px !important;
-	}
-
-	.ct-layer-controls > *:not(:last-child) {
-		border-right: none;
-		border-left: 1px solid var(--optionBorderColor);
-	}
-
 	// gradient
 	.components-custom-gradient-picker__gradient-bar {
 		padding-left: 3px;

@@ -25,6 +25,8 @@ $link = blocksy_translate_dynamic(
 if (
 	$header_button_open === 'popup'
 	&&
+	function_exists('blocksy_get_default_content_block')
+	&&
 	blocksy_get_default_content_block(null, [
 		'template_type' => 'popup'
 	])

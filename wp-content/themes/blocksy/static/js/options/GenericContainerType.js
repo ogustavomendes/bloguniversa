@@ -3,6 +3,7 @@ import Condition from './containers/Condition'
 import Tabs from './containers/Tabs'
 import Group from './containers/Group'
 import LabeledGroup from './containers/LabeledGroup'
+import HasMetaCategoryButton from './containers/ct-has-meta-category-button'
 
 const GenericContainerType = ({
 	value,
@@ -10,9 +11,13 @@ const GenericContainerType = ({
 	onChange,
 	parentValue,
 	purpose,
-	hasRevertButton
+	hasRevertButton,
 }) => {
 	let Container = null
+
+	if (renderingChunk[0].type === 'ct-has-meta-category-button') {
+		Container = HasMetaCategoryButton
+	}
 
 	if (renderingChunk[0].type === 'ct-condition') {
 		Container = Condition

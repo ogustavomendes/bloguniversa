@@ -156,7 +156,6 @@ add_action('init', function () {
 			$element->add_control('blocksy_stretch_section', [
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label' => esc_html__( 'Full Width Section', 'blocksy' ),
-				// 'description' => esc_html__( 'It will remove the "weird" columns gap added by Elementor on the left and right side of each section (when `Columns Gap` is active). This helps you to have consistent content width without having to manually readjust it everytime you create sections with `Columns Gap`', 'blocksy' ),
 				'return_value' => 'stretched',
 				'hide_in_inner' => true,
 				'default' => '',
@@ -171,18 +170,17 @@ add_action('init', function () {
 		'elementor/element/section/section_layout/before_section_end',
 		function ($element, $args) {
 			$element->remove_control('stretch_section');
-			$element->add_control('fix_columns_alignment', [
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'label' => esc_html__( 'Columns Alignment Fix', 'blocksy' ),
-				// 'description' => esc_html__( 'It will remove the "weird" columns gap added by Elementor on the left and right side of each section (when `Columns Gap` is active). This helps you to have consistent content width without having to manually readjust it everytime you create sections with `Columns Gap`', 'blocksy' ),
-				'return_value' => 'fix',
-				'default' => apply_filters(
-					'blocksy:integrations:elementor:fix_columns_alignment:default',
-					''
-				),
-				'separator' => 'before',
-				'prefix_class' => 'ct-columns-alignment-',
-			]);
+			// $element->add_control('fix_columns_alignment', [
+			// 	'type' => \Elementor\Controls_Manager::SWITCHER,
+			// 	'label' => esc_html__( 'Columns Alignment Fix', 'blocksy' ),
+			// 	'return_value' => 'fix',
+			// 	'default' => apply_filters(
+			// 		'blocksy:integrations:elementor:fix_columns_alignment:default',
+			// 		''
+			// 	),
+			// 	'separator' => 'before',
+			// 	'prefix_class' => 'ct-columns-alignment-',
+			// ]);
 		},
 		10, 2
 	);

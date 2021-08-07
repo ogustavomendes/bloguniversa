@@ -77,16 +77,24 @@ const computeAvailableSpaceFor = (nav) => {
 export const getItemsDistribution = (nav) => {
 	const containerWidth = computeAvailableSpaceFor(nav)
 
+	let navStyle = window.getComputedStyle(nav)
+
 	return getCacheFor(nav.dataset.id).itemsWidth.reduce(
 		(sum, n) => sum + n,
 		0
-	) > containerWidth
+	) +
+		(parseInt(navStyle.getPropertyValue('margin-left')) +
+			parseInt(navStyle.getPropertyValue('margin-right'))) >
+		containerWidth
 		? getCacheFor(nav.dataset.id).children.reduce(
 				({ fit, notFit }, currentEl, currentIndex) => ({
 					...(getCacheFor(nav.dataset.id)
 						.itemsWidth.slice(0, currentIndex + 1)
 						.reduce((sum, n) => sum + n, 0) <
-					containerWidth - 100
+					containerWidth -
+						100 -
+						(parseInt(navStyle.getPropertyValue('margin-left')) +
+							parseInt(navStyle.getPropertyValue('margin-right')))
 						? {
 								fit: [...fit, currentEl],
 								notFit,

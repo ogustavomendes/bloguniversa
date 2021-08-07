@@ -522,4 +522,25 @@ handleVariablesFor({
 			type: 'color',
 		},
 	}),
+
+	// Breadcrumbs
+	breadcrumbsFontColor: [
+		{
+			selector: '.ct-breadcrumbs',
+			variable: 'color',
+			type: 'color:default',
+		},
+
+		{
+			selector: '.ct-breadcrumbs',
+			variable: 'linkInitialColor',
+			type: 'color:initial',
+		},
+
+		{
+			selector: '.ct-breadcrumbs',
+			variable: 'linkHoverColor',
+			type: 'color:hover',
+		},
+	],
 })

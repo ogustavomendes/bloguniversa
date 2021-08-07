@@ -48,8 +48,8 @@
 	}
 }
 
-[data-flexy='no'] [data-height='dynamic'] > *:not(:first-child) {
-	display: none;
+[data-flexy='no'] [data-height='dynamic'] > *:not([data-item='initial']) {
+	height: 1px;
 }
 
 .flexy-items {

@@ -32,7 +32,9 @@ export const menuEntryPoints = [
 		// load: () => new Promise((r) => r({ mount: mountResponsiveHeader })),
 		load: () => import('../header/responsive-desktop-menu'),
 		// onLoad: false,
-		// events: ['ct:general:device-change', 'ct:header:render-frame'],
+		events: ['ct:general:device-change', 'ct:header:render-frame'],
+		forcedEvents: ['ct:header:render-frame'],
+		forcedEventsElsSkip: true,
 		condition: () =>
 			getCurrentScreen() === 'desktop' &&
 			[
@@ -43,7 +45,17 @@ export const menuEntryPoints = [
 				// true - no enough space
 				// false enough space
 
+				if (
+					window.blocksyResponsiveMenuCache &&
+					window.blocksyResponsiveMenuCache.enabled
+				) {
+					return window.blocksyResponsiveMenuCache.enabled
+				}
+
 				if (!menu.firstElementChild) {
+					window.blocksyResponsiveMenuCache = {
+						enabled: false,
+					}
 					return false
 				}
 
@@ -55,10 +67,18 @@ export const menuEntryPoints = [
 							...baseContainer.querySelectorAll(
 								'[data-id]:not([data-id*="menu"])'
 							),
-						].reduce(
-							(t, item) => t + item.getBoundingClientRect().width,
-							0
-						) <
+						].reduce((t, item) => {
+							let style = window.getComputedStyle(item)
+
+							return (
+								t +
+								item.getBoundingClientRect().width +
+								parseInt(
+									style.getPropertyValue('margin-left')
+								) +
+								parseInt(style.getPropertyValue('margin-right'))
+							)
+						}, 0) <
 					[
 						...baseContainer.querySelectorAll(
 							'[data-id*="menu"] > * > *'
@@ -68,6 +88,10 @@ export const menuEntryPoints = [
 				if (!hasResponsive) {
 					menu.dataset.responsive = 'yes'
 					ctEvents.trigger('ct:header:init-popper')
+				}
+
+				window.blocksyResponsiveMenuCache = {
+					enabled: hasResponsive,
 				}
 
 				return hasResponsive

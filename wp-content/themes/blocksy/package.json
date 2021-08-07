@@ -1,6 +1,6 @@
 {
 	"name": "small-ct",
-	"version": "1.8.4.2",
+	"version": "1.8.4.5",
 	"title": "Blocksy",
 	"browserslist": "> 1%, not opera > 0, not op_mini all",
 	"devDependencies": {
@@ -35,7 +35,7 @@
 		"classnames": "^2.2.6",
 		"ct-log": "^1.0.0",
 		"ct-wp-js-log": "^1.0.4",
-		"customizer-sync-helpers": "^0.0.33",
+		"customizer-sync-helpers": "^0.0.34",
 		"deep-equal": "^1.0.1",
 		"dom-chef": "^3.3.0",
 		"dom-focus-lock": "^1.0.4",

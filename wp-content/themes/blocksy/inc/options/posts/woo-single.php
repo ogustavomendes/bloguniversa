@@ -12,7 +12,6 @@ $options = [
 			]),
 
 			[
-
 				blocksy_rand_md5() => [
 					'type'  => 'ct-title',
 					'label' => __( 'Page Structure', 'blocksy' ),

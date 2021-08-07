@@ -88,10 +88,10 @@ body [data-customize-hide] {
 }
 
 // disable transitions
-.ct-disable-transitions,
-.ct-disable-transitions * {
-	transition: none !important;
-}
+// .ct-disable-transitions,
+// .ct-disable-transitions * {
+// 	transition: none !important;
+// }
 
 // Customizer shortcuts
 [data-shortcut] {

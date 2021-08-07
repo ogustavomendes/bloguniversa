@@ -118,6 +118,11 @@
 }
 
 // dynamic layer
-.ct-dynamic-data > span {
-	margin-inline-end: 5px;
+.ct-dynamic-data {
+	color: var(--color);
+	--linkInitialColor: var(--color);
+	
+	> span {
+		margin-inline-end: 5px;
+	}
 }

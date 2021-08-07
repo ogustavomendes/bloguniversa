@@ -44,6 +44,17 @@ a {
 	}
 }
 
+// type 4
+[data-link='type-4'] {
+	#{$selector} {
+		background-size: var(--has-link-decoration, 100% 1px);
+		background-image: var(
+			--has-link-decoration,
+			linear-gradient(currentColor, currentColor)
+		);
+	}
+}
+
 
 // links speciffic cases
 footer.ct-footer [data-link] a,

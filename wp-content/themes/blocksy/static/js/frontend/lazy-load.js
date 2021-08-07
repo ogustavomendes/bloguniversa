@@ -42,6 +42,8 @@ const maybeInit = () => {
 		data_src: 'ct-lazy',
 		data_srcset: 'ct-lazy-set',
 
+		threshold: 100,
+
 		elements_selector: 'img[data-ct-lazy]',
 
 		callback_load: cb,

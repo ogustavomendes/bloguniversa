@@ -165,6 +165,10 @@ export const handleUpdate = (menu) => {
 		menu = document.querySelector(`[class="${menu.className}"]`)
 	}
 
+	if (!menu) {
+		return
+	}
+
 	if (
 		!menu.querySelector('.menu-item-has-children') &&
 		!menu.querySelector('.page_item_has_children')
